@@ -1,0 +1,25 @@
+<!--
+SPDX-FileCopyrightText: Copyright 2020 | CSI Piemonte
+SPDX-License-Identifier: EUPL-1.2
+-->
+<ivy-module version="2.0">
+  <info organisation="csipiemonte" module="archtest"/>
+  <configurations>
+    <conf name="runtime"  description="required for execution"/>
+    <conf name="provided" description="the JDK or a container are expected to provide the dependency at runtime"/>
+    <conf name="compile"  description="required for compilation of the application classes" extends="runtime, provided"/>
+    <conf name="test"     description="required for junit testing"/>
+    <conf name="src"      description="dependencies sources"/>
+    <conf name="dev"      description="required for source generation"/>
+  </configurations>
+  <dependencies>
+
+    <dependency org="apache" name="log4j"         rev="1.2.15" transitive="false" conf="provided->default"/>
+    <dependency org="apache" name="commons-lang3" rev="3.1"    transitive="false" conf="provided->default"/>
+
+    <dependency org="others" name="spring" rev="3.1.1.RELEASE" transitive="false" conf="provided->default">
+      <artifact name="spring-core-3.1.1.RELEASE"       type="jar"/>
+    </dependency>
+
+  </dependencies>
+</ivy-module>
