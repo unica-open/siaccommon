@@ -4,7 +4,7 @@
 */
 package it.csi.siac.siaccommon.util.number;
 
-public class NumberToText {
+public final class NumberToText {
 	
 	private static final String[] UNO_DICIANNOVE = new String[] { "uno", "due", "tre", "quattro", "cinque", "sei", "sette", "otto",
 			"nove", "dieci", "undici", "dodici", "tredici", "quattordici", "quindici",

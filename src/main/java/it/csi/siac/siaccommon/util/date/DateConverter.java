@@ -14,13 +14,11 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-
 /**
- * Classe di conversione per i {@link Date} da e verso {@link String}.
- * 
- * @author Marchino Alessandro, AR
- * 
+ * @deprecated
+ * @see it.csi.siac.siaccommon.util.date.DateUtil
  */
+@Deprecated
 public class DateConverter {
 	private static final String DATE_PATTERN = "dd/MM/yyyy";
 	
@@ -31,14 +29,42 @@ public class DateConverter {
 		}
 	};
 	
-	private DateConverter() {
-		// Prevent instantiation
-	}
+	private DateConverter() {}
 
 	public static Date convertFromString(String value) {
 		return convertFromString(value, DATE_PATTERN);
 	}
 	
+	public static Date convertFromString(String value, String pattern) {
+		if (value == null) {
+			return null;
+		}
+		
+		Date result = null;
+		
+		try {
+			result = getDateFormat(pattern).parse(value);
+		} catch (ParseException e) {
+			throw new IllegalArgumentException("Conversione in java.util.Date fallita per il valore (" + value + ")", e);
+		}
+
+		Date dataDel1900 = new GregorianCalendar(1900, Calendar.DECEMBER, 31).getTime();
+		
+		if (!result.after(dataDel1900)) {
+			throw new IllegalArgumentException("Conversione in java.util.Date fallita per il valore (" + value + ")");
+		}
+
+		return result;
+	}
+
+	public static String convertToString(Date value) {
+		try {
+			return getDateFormat(DATE_PATTERN).format(value);
+		} catch (IllegalArgumentException e) {
+			return null;
+		}
+	}
+
 	/**
 	 * Retrieves the date format
 	 * @param pattern the pattern for which to retrieve the date format
@@ -53,55 +79,5 @@ public class DateConverter {
 		return df;
 	}
 	
-	public static Date convertFromString(String value, String pattern) {
-		Date result = null;
-		
-		try {
-			result = getDateFormat(pattern).parse(value);
-		} catch (ParseException e) {
-			throw new IllegalArgumentException("Conversione in java.util.Date fallita per il valore (" + value + ")", e);
-		}
 
-		Date dataDel1900 = new GregorianCalendar(1900, Calendar.DECEMBER, 31).getTime();
-		
-		if (!result.after(dataDel1900)) {
-			throw new IllegalArgumentException("Conversione in java.util.Date fallita per il valore (" + value + ")");
-		}
-		// System.out.println(date);
-		return result;
-	}
-
-	public static String convertToString(Date value) {
-		try {
-			return getDateFormat(DATE_PATTERN).format(value);
-		} catch (IllegalArgumentException e) {
-			/*
-			 * Non ho grosse necessità di implementare il catch: va bene anche
-			 * il caso in cui non possa fare nulla
-			 */
-			return null;
-		}
-	}
-
-	public static Date calcolaDataPerNumeroGiorni(Date date, boolean b, int numerogiorni) {
-
-		Date now = new Date();
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTime(now);
-		calendar.add(Calendar.DATE, -numerogiorni);
-		return calendar.getTime();
-	}
-	
-	/**
-	 * Formatta data registrazione. (da formatUtils.formatDate)
-	 *
-	 * @param data the data
-	 * @return the string
-	 */
-	public static String formatDateAsString(Date data) {
-		if(data == null) {
-			return "";
-		}
-		return new SimpleDateFormat("dd/MM/yyyy", Locale.ITALY).format(data);
-	}
 }

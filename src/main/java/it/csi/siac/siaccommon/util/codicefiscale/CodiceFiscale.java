@@ -13,7 +13,7 @@ import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 
-import it.csi.siac.siaccommon.util.CoreUtils;
+import it.csi.siac.siaccommon.util.CoreUtil;
 import it.csi.siac.siaccommon.util.Sesso;
 import it.csi.siac.siaccommon.util.date.DateConverter;
 
@@ -55,7 +55,7 @@ public class CodiceFiscale {
 		map.put("12", "T");
 
 		MESE_MAP = Collections.unmodifiableMap(map);
-		REVERSE_MESE_MAP = CoreUtils.reverseMap(MESE_MAP);
+		REVERSE_MESE_MAP = CoreUtil.reverseMap(MESE_MAP);
 	}
 
 	public static CodiceFiscale generaCodiceFiscale(String cognome, String nome, Sesso sesso, Date dataNascita,
